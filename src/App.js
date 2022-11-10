@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import store from './app/store';
+import Subreddit from './features/subreddit/subreddit';
+import Reddit from './features/reddit/reddit';
+import Search from './features/search/search';
+import { Provider } from 'react-redux';
+import React from 'react';
+import logo from './assets/reddit-logo.png'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <header>
+          <div className='logo'>
+            <img src={logo} alt="reddit logo" className='logoImg'/>
+            <div className='logoName'>reddit</div>
+          </div>
+          <Search/>
+        </header>
+        <div className='container'>
+          <main>
+            <Reddit/>
+
+          </main>
+          <aside>
+            <Subreddit/>
+          </aside>
+        </div>
+      </div>
+    </Provider>
   );
 }
 
