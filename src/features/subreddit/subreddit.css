@@ -2,10 +2,10 @@
 
 .subreddit {
     background-color: #D6E4E5;
-    height: 300px;
     width: 100%;
     border-radius: 10px;
     font-family: 'Roboto', sans-serif;
+    padding-bottom: 20px;
 }
 
 .subredditTitle {
@@ -14,4 +14,26 @@
     margin: 0;
     font-size: 1.5em;
     color: #497174;
+}
+
+.subreddit ul {
+    list-style: none;
+}
+
+.subredditName {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    margin-bottom: 7px;
+}
+
+.subredditName:hover {
+    color: #EB6440;
+    cursor: pointer;
+}
+
+.subredditImg {
+    width: 20px;
+    border-radius: 10px;
+    margin-right: 5px;
 }
