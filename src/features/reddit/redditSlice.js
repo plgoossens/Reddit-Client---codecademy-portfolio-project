@@ -16,6 +16,16 @@ export const loadPosts = createAsyncThunk(
     }
 );
 
+export const search = createAsyncThunk(
+    'reddit/search',
+    async (searchTerms) => {
+        const search = searchTerms.replace(" ", "%20");
+        const reddit = await fetch(`https://www.reddit.com/search.json?q=${search}`);
+        const redditJSON = await reddit.json();
+        return redditJSON.data.children;
+    }
+);
+
 const redditSlice = createSlice({
     name: 'reddit',
     initialState: initialState,
@@ -33,6 +43,19 @@ const redditSlice = createSlice({
             state.isError = false;
         },
         [loadPosts.rejected]: (state,action) => {
+            state.isLoading = false;
+            state.isError = true;
+        },
+        [search.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.posts = action.payload;
+        },
+        [search.pending]: (state, action) => {
+            state.isLoading = true;
+            state.isError = false;
+        },
+        [search.rejected]: (state, action) => {
             state.isLoading = false;
             state.isError = true;
         }
