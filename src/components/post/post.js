@@ -2,6 +2,8 @@ import React from "react";
 import './post.css';
 import arrow from '../../assets/arrow-up.png';
 import commentImg from '../../assets/commenter.png';
+import { useDispatch, useSelector } from "react-redux";
+import { loadCommentsForPost, selectShowComments, toggleComments } from "../../features/reddit/redditSlice";
 
 const formatLikes = (score) => {
     if(score<1000) return score;
@@ -39,7 +41,20 @@ export default function Post({post}){
     }
     const author = post.data.author;
     const creationDate = formatDate(post.data.created_utc);
-    const comments = formatLikes(post.data.num_comments);
+    const numComments = formatLikes(post.data.num_comments);
+    let comments;
+    if(post.data.comments) comments = post.data.comments;
+    const showComments = useSelector(selectShowComments(post.data.id));
+
+    const dispatch = useDispatch();
+
+    const handleCommentsButtonClick = (postLink, postID, postComments) => {
+        if(!postComments){
+            dispatch(loadCommentsForPost({postLink, postID}));
+        }else {
+            dispatch(toggleComments(postID));
+        }
+    }
 
     return (
         <div className="post">
@@ -57,10 +72,23 @@ export default function Post({post}){
                 <div className="postInfos">
                     <span className="postAuthor">{author}</span>
                     <span className="postTime">{creationDate}</span>
-                    <span className="postComments">
+                    <span className="postComments" onClick={() => handleCommentsButtonClick(post.data.permalink, post.data.id, post.data.comments)}>
                         <img src={commentImg} alt="comment" className="commentsImg"/>
-                        {comments}k
+                        {numComments}k
                     </span>
+                </div>
+                <div className="commentsSection" style={{display: showComments?'block':'none'}}>
+                    {comments &&
+                        comments.map(comment => {
+                            return <div className="comment">
+                                <div className="commentInfos">
+                                    <span className="commentAuthor">{comment.data.author}</span>
+                                    <span className="commentCreated">{formatDate(comment.data.created_utc)}</span>
+                                </div>
+                                <div className="commentBody">{comment.data.body}</div>
+                            </div>
+                        })
+                    }
                 </div>
             </div>
         </div>

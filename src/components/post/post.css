@@ -69,3 +69,30 @@
     height: 0.9em;
     margin-right: 3px;
 }
+
+.postComments:hover {
+    cursor: pointer;
+    filter: invert(50%) sepia(78%) saturate(3288%) hue-rotate(340deg) brightness(104%) contrast(84%);
+}
+
+.comment {
+    margin-top: 15px;
+}
+
+.commentInfos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.commentAuthor {
+    color: #497174;
+}
+
+.commentCreated {
+    color: #497174;
+}
+
+.commentBody {
+
+}
